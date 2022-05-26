@@ -80,6 +80,7 @@ datetime_string = timestamp_utc_aware.strftime('%Y%m%d_%H%M%S')
 with open(ROOT_DIR / f'{datetime_string}.json', 'w', encoding='utf-8') as fp:
   json.dump({
     'musics': musics,
+    'fetched_at': timestamp_utc_aware.isoformat(),
   }, fp, ensure_ascii=False)
 
 driver.quit()
