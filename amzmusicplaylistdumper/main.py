@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+# from selenium.common.exceptions import NoSuchElementException
 import json
 from datetime import datetime, timezone
 import time
