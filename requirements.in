@@ -1,2 +1,7 @@
-selenium
 python-dotenv
+requests
+brotlicffi
+beautifulsoup4
+html5lib
+pydantic
+PyYAML
