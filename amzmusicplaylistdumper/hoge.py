@@ -1,6 +1,7 @@
 import csv
 from io import StringIO
 
+from api.playlist import fetch_playlist
 from api.embed_playlist import fetch_embed_playlist
 from api.urls import get_album_track_url, get_album_url, get_artist_url, get_playlist_track_url, get_playlist_url
 
@@ -51,6 +52,12 @@ def command_embed_playlist_csv(args):
   print(output_text)
 
 
+def command_playlist_csv(args):
+  playlist_asin = args.playlist_asin
+
+  fetch_playlist(playlist_asin=playlist_asin)
+
+
 def main():
   import argparse
   parser = argparse.ArgumentParser()
@@ -59,6 +66,10 @@ def main():
   parser_embed_playlist_csv = subparsers.add_parser('embed_playlist_csv')
   parser_embed_playlist_csv.add_argument('--playlist_asin', type=str, required=True)
   parser_embed_playlist_csv.set_defaults(handler=command_embed_playlist_csv)
+
+  parser_playlist_csv = subparsers.add_parser('playlist_csv')
+  parser_playlist_csv.add_argument('--playlist_asin', type=str, required=True)
+  parser_playlist_csv.set_defaults(handler=command_playlist_csv)
 
   args = parser.parse_args()
   if hasattr(args, 'handler'):
