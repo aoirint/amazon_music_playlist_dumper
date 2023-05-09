@@ -8,7 +8,7 @@ import uuid
 import time
 
 from . import config
-from .urls import get_playlist_url
+from .amazon_url_utility import get_playlist_url
 
 
 def fetch_playlist(playlist_asin: str):
