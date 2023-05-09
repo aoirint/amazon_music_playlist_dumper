@@ -2,7 +2,7 @@ import csv
 from io import StringIO
 
 from api.embed_playlist import fetch_embed_playlist
-from api.urls import get_album_track_url, get_album_url, get_artist_url, get_playlist_track_url, get_playlist_url
+from amzmusicplaylistdumper.api.amazon_url_utility import get_album_track_url, get_album_url, get_artist_url, get_playlist_track_url, get_playlist_url
 
 
 def command_embed_playlist_csv(args):

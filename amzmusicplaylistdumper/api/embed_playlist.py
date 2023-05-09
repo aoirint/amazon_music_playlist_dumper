@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from pydantic import BaseModel
 
 from . import config
-from .urls import get_embed_playlist_url
+from .amazon_url_utility import get_embed_playlist_url
 
 
 class EmbedPlaylistTrackItem(BaseModel):
