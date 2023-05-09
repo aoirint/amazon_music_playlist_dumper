@@ -86,6 +86,7 @@ def fetch_playlist(playlist_asin: str):
       'deeplink': f'/user-playlists/{playlist_asin}',
     }, ensure_ascii=False),
   }, ensure_ascii=False).replace(' ', '')
+  print(request_body)
 
   content_length = len(request_body)
 
@@ -98,12 +99,12 @@ def fetch_playlist(playlist_asin: str):
     'dnt': '1',
     'origin': 'https://music.amazon.co.jp',
     'referer': 'https://music.amazon.co.jp/',
-    'sec-ch-ua': '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-site': 'cross-site',
+    # 'sec-ch-ua': '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
+    # 'sec-ch-ua-mobile': '?0',
+    # 'sec-ch-ua-platform': '"Windows"',
+    # 'sec-fetch-dest': 'empty',
+    # 'sec-fetch-mode': 'cors',
+    # 'sec-fetch-site': 'cross-site',
     'user-agent': config.USER_AGENT,
     'x-amzn-affiliate-tags': '',
     'x-amzn-application-version': version,
