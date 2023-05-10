@@ -44,6 +44,7 @@ def fetch_selenium_playlist(
     command_executor=selenium_url,
     options=options,
   )
+  driver.implicitly_wait(30)
   driver.get(playlist_url)
 
   time.sleep(1)
