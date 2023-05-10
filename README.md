@@ -1,14 +1,16 @@
 # amzmusicplaylistdumper
 
-Copy `template.env` to `.env` and set values.
+```shell
+python3 amzmusicplaylistdumper/main.py embed_playlist_csv --playlist_asin ""
 
-`ROOT_DIR` owner must be `1000:1000`(uid:gid).
+python3 amzmusicplaylistdumper/main.py selenium_playlist_json --playlist_asin ""
+```
 
 ```shell
 docker compose build
 
 docker compose up -d selenium
-docker compose up app
+docker compose run --rm app selenium_playlist_json --playlist_asin ""
 
 # Wait some seconds
 

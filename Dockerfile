@@ -17,4 +17,5 @@ RUN gosu user pip3 install --no-cache-dir -r /tmp/requirements.txt
 ADD ./amzmusicplaylistdumper /opt/amzmusicplaylistdumper
 
 WORKDIR /opt/amzmusicplaylistdumper
-CMD [ "gosu", "user", "python3", "main.py" ]
+ENTRYPOINT [ "gosu", "user", "python3", "main.py" ]
+CMD [ "--version" ]

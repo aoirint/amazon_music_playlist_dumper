@@ -2,14 +2,24 @@ import csv
 import json
 from io import StringIO
 from datetime import datetime, timezone
+import os
+from dotenv import dotenv_values
+from pydantic import BaseModel, parse_obj_as
 
 from api.embed_playlist import fetch_embed_playlist
 from api.selenium_playlist import fetch_selenium_playlist
-from amzmusicplaylistdumper.api.amazon_url_utility import get_album_track_url, get_album_url, get_artist_url, get_playlist_track_url, get_playlist_url
+from api.amazon_url_utility import get_album_track_url, get_album_url, get_artist_url, get_playlist_track_url, get_playlist_url
+
+
+class EmbedPlaylistCsvConfig(BaseModel):
+  playlist_asin: str
 
 
 def command_embed_playlist_csv(args):
-  playlist_asin = args.playlist_asin
+  config = parse_obj_as(EmbedPlaylistCsvConfig, vars(args))
+
+  playlist_asin = config.playlist_asin
+
   embed_playlist = fetch_embed_playlist(playlist_asin=playlist_asin)
 
   sio = StringIO()
@@ -54,11 +64,20 @@ def command_embed_playlist_csv(args):
   print(output_text)
 
 
+class SeleniumPlaylistJsonConfig(BaseModel):
+  selenium_url: str
+  playlist_asin: str
+
+
 def command_selenium_playlist_json(args):
-  selenium_url = args.selenium_url
-  playlist_asin = args.playlist_asin
+  config = parse_obj_as(SeleniumPlaylistJsonConfig, vars(args))
+
+  selenium_url = config.selenium_url
+  playlist_asin = config.playlist_asin
 
   timestamp_utc_aware = datetime.now(timezone.utc)
+
+  # TODO: wait selenium up
 
   selenium_playlist = fetch_selenium_playlist(
     selenium_url=selenium_url,
@@ -79,15 +98,23 @@ def command_selenium_playlist_json(args):
 def main():
   import argparse
   parser = argparse.ArgumentParser()
+  parser.add_argument('--env_file', type=str)
+  args, _ = parser.parse_known_args()
+  env_file = args.env_file
+
+  env_vals = dict(os.environ)
+  if env_file:
+    env_vals.update(dotenv_values(dotenv_path=env_file))
+
   subparsers = parser.add_subparsers()
 
   parser_embed_playlist_csv = subparsers.add_parser('embed_playlist_csv')
-  parser_embed_playlist_csv.add_argument('--playlist_asin', type=str, required=True)
+  parser_embed_playlist_csv.add_argument('--playlist_asin', type=str, default=env_vals.get('AMPD_PLAYLIST_ASIN'))
   parser_embed_playlist_csv.set_defaults(handler=command_embed_playlist_csv)
 
   parser_selenium_playlist_json = subparsers.add_parser('selenium_playlist_json')
-  parser_selenium_playlist_json.add_argument('--selenium_url', type=str, required=True)
-  parser_selenium_playlist_json.add_argument('--playlist_asin', type=str, required=True)
+  parser_selenium_playlist_json.add_argument('--selenium_url', type=str, default=env_vals.get('AMPD_SELENIUM_URL'))
+  parser_selenium_playlist_json.add_argument('--playlist_asin', type=str, default=env_vals.get('AMPD_PLAYLIST_ASIN'))
   parser_selenium_playlist_json.set_defaults(handler=command_selenium_playlist_json)
 
   args = parser.parse_args()
