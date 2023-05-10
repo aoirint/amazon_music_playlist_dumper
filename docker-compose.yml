@@ -13,6 +13,6 @@ services:
     depends_on:
       - selenium
   selenium:
-    image: selenium/standalone-chrome:101.0
+    image: selenium/standalone-chrome:113.0
     volumes:
       - /dev/shm:/dev/shm
