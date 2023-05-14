@@ -67,6 +67,7 @@ def command_embed_playlist_csv(args):
 class SeleniumPlaylistJsonConfig(BaseModel):
   selenium_url: str
   playlist_asin: str
+  load_interval: float
 
 
 def command_selenium_playlist_json(args):
@@ -74,6 +75,7 @@ def command_selenium_playlist_json(args):
 
   selenium_url = config.selenium_url
   playlist_asin = config.playlist_asin
+  load_interval = config.load_interval
 
   timestamp_utc_aware = datetime.now(timezone.utc)
 
@@ -82,6 +84,7 @@ def command_selenium_playlist_json(args):
   selenium_playlist = fetch_selenium_playlist(
     selenium_url=selenium_url,
     playlist_asin=playlist_asin,
+    load_interval=load_interval,
   )
 
   print(
@@ -115,6 +118,7 @@ def main():
   parser_selenium_playlist_json = subparsers.add_parser('selenium_playlist_json')
   parser_selenium_playlist_json.add_argument('--selenium_url', type=str, default=env_vals.get('AMPD_SELENIUM_URL'))
   parser_selenium_playlist_json.add_argument('--playlist_asin', type=str, default=env_vals.get('AMPD_PLAYLIST_ASIN'))
+  parser_selenium_playlist_json.add_argument('--load_interval', type=float, default=env_vals.get('AMPD_LOAD_INTERVAL', 1.0))
   parser_selenium_playlist_json.set_defaults(handler=command_selenium_playlist_json)
 
   args = parser.parse_args()

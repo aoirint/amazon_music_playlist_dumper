@@ -35,6 +35,7 @@ class SeleniumPlaylist(BaseModel):
 def fetch_selenium_playlist(
   selenium_url: str,
   playlist_asin: str,
+  load_interval: float,
 ) -> SeleniumPlaylist:
   playlist_url = get_playlist_url(playlist_asin=playlist_asin)
 
@@ -47,7 +48,7 @@ def fetch_selenium_playlist(
   driver.implicitly_wait(30)
   driver.get(playlist_url)
 
-  time.sleep(1)
+  time.sleep(load_interval)
 
   tracks: list[SeleniumPlaylistTrackItem] = []
   last_index = 0
@@ -91,7 +92,7 @@ def fetch_selenium_playlist(
         last_index = index
 
     driver.execute_script('window.scrollBy(0, 500)')
-    time.sleep(1)
+    time.sleep(load_interval)
 
     scroll_y = driver.execute_script('return window.scrollY')
     if prev_scroll_y == scroll_y:
